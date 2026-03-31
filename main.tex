@@ -1,0 +1,81 @@
+\documentclass[paper=a4,
+	10pt,				% dimensione del carattere
+	twoside=on,			% on, off, semi come on ma con margini uguali
+	titlepage=on,		% titolo su una pagina separata
+	twocolumn=off,		% on, off
+	parskip=half,		% off rietro, half mezza riga, never senza
+	BCOR=0cm,			% correzione per la rilegatura
+	DIV=calc]			% calcola la dimensione dell'area tipografica
+	{scrartcl}
+
+\linespread{1}
+\raggedright
+
+\usepackage[T1]{fontenc}
+\usepackage[italian]{babel}
+
+\usepackage{lmodern}
+\usepackage{helvet}
+\renewcommand*\familydefault{\sfdefault}
+
+
+\KOMAoptions{DIV=last}		% ricalcola la dimensione dell'area tipografica
+
+
+% Intestazione
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[headsepline, plainheadsepline, automark]{scrlayer-scrpage}
+\clearpairofpagestyles 
+\pagestyle{scrheadings}
+
+\ohead*{\leftmark}	% sezione
+\ofoot*{\pagemark}
+
+
+% Pacchetti aggiuntivi
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{siunitx}        % unità di misura
+\usepackage{tikz}           % disegni
+\usepackage{booktabs}       % linee nelle tabelle
+\usepackage{pgfplots}       % grafici
+\pgfplotsset{compat=1.18}
+
+
+% Titolo del documento
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title{Diagrammi partendo da file csv}
+\subtitle{Per tracciare grafici partendo fa file .csv generati da python}
+\author{Autore}
+\date{\today}
+
+
+% Inizio del documento
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+\maketitle
+
+
+\tableofcontents
+
+%\clearpage
+\cleardoublepage
+
+\section{Grafici}
+
+\begin{tikzpicture}
+  \begin{axis}[
+    xlabel={$\frac{t}{\unit{\second}}$},
+    ylabel={$\frac{y}{\unit{\meter}}$},
+    grid=major,
+    legend pos=north east
+    ]
+    % Traccia la colonna 1 (y) in funzione della colonna 0 (t)
+    \addplot table [x=t, y=y] {tabella.csv};
+    \addlegendentry{Caduta nel vuoto}
+  \end{axis}
+\end{tikzpicture}
+
+
+\end{document}
+
